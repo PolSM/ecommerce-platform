@@ -1,6 +1,7 @@
 package com.ecommerce.infrastructure.repositories;
 
 import com.ecommerce.domain.entities.Price;
+import com.ecommerce.builders.PriceBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 
 @DataJpaTest
 public class JpaPriceRepositoryTest {
-
     @Autowired
     private BaseJpaPriceRepository priceRepository;
     @Autowired
@@ -23,18 +23,20 @@ public class JpaPriceRepositoryTest {
         jdbcTemplate.execute("TRUNCATE TABLE ecommerce_platform.tbl_prices");
     }
 
+    private static final int PRODUCT_ID = 35455;
+    private static final int BRAND_ID = 1;
+
     @Test
     public void should_retrieve_a_price() {
         LocalDateTime date = LocalDateTime.of(2021, 1, 1, 0, 0);
-        Price aPrice = new Price(35455, 1, date,
-                LocalDateTime.of(2021, 12, 31, 23, 59), 1, 0, 35.50f, "EUR");
+        Price aPrice = PriceBuilder.aPrice();
 
         priceRepository.save(aPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 date,
-                35455,
-                1
+                PRODUCT_ID,
+                BRAND_ID
         );
 
         Assertions.assertEquals(aPrice, price);
@@ -42,14 +44,13 @@ public class JpaPriceRepositoryTest {
 
     @Test
     public void should_not_retrieve_a_price_if_date_before_start_date() {
-        Price aPrice = new Price(35455, 1, LocalDateTime.of(2021, 1, 1, 0, 0),
-                LocalDateTime.of(2021, 12, 31, 23, 59), 1, 0, 35.50f, "EUR");
+        Price aPrice = PriceBuilder.aPrice();
         priceRepository.save(aPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 LocalDateTime.of(2020, 1, 1, 0, 0),
-                35455,
-                1
+                PRODUCT_ID,
+                BRAND_ID
         );
 
         Assertions.assertNull(price);
@@ -57,14 +58,13 @@ public class JpaPriceRepositoryTest {
 
     @Test
     public void should_not_retrieve_a_price_if_date_after_end_date() {
-        Price aPrice = new Price(35455, 1, LocalDateTime.of(2021, 1, 1, 0, 0),
-                LocalDateTime.of(2021, 12, 31, 23, 59), 1, 0, 35.50f, "EUR");
+        Price aPrice = PriceBuilder.aPrice();
         priceRepository.save(aPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 LocalDateTime.of(2022, 1, 1, 0, 0),
-                35455,
-                1
+                PRODUCT_ID,
+                BRAND_ID
         );
 
         Assertions.assertNull(price);
@@ -72,19 +72,19 @@ public class JpaPriceRepositoryTest {
 
     @Test
     public void should_retrieve_a_price_by_priority() {
-        LocalDateTime startDate = LocalDateTime.of(2021, 1, 1, 0, 0);
-        LocalDateTime endDate = LocalDateTime.of(2021, 12, 31, 23, 59);
-        Price aPrice = new Price(35455, 1, startDate,
-                endDate, 1, 0, 35.50f, "EUR");
-        Price anotherPrice = new Price(35455, 1, startDate,
-                endDate, 2, 1, 25.50f, "EUR");
+        LocalDateTime date = LocalDateTime.of(2021, 1, 1, 0, 0);
+        Price aPrice = PriceBuilder.aPrice();
+        Price anotherPrice = new PriceBuilder()
+                .setPriority(1)
+                .setPrice(25.50f)
+                .build();
         priceRepository.save(aPrice);
         priceRepository.save(anotherPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
-                startDate,
-                35455,
-                1
+                date,
+                PRODUCT_ID,
+                BRAND_ID
         );
 
         Assertions.assertEquals(anotherPrice, price);
