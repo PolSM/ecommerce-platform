@@ -23,7 +23,7 @@ public class Price {
     @Column(name = "price_list")
     private Integer priceList;
     @Column(name = "priority")
-    private Byte priority;
+    private Integer priority;
     @Column(name = "price")
     private Float price;
     @Column(name = "currency")
@@ -32,7 +32,7 @@ public class Price {
     public Price() {
     }
 
-    public Price(Integer productId, Integer brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList, Byte priority, Float price, String currency) {
+    public Price(Integer productId, Integer brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList, Integer priority, Float price, String currency) {
         this.productId = productId;
         this.brandId = brandId;
         this.startDate = startDate;
