@@ -2,6 +2,8 @@ package com.ecommerce.infrastructure.controllers;
 
 import com.ecommerce.application.dtos.PriceDTO;
 import com.ecommerce.application.services.PriceService;
+import com.ecommerce.infrastructure.utils.JsonConverter;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,12 @@ public class PriceController {
             @RequestParam("date") LocalDateTime date
     ) {
         Optional<PriceDTO> priceDTO = priceService.getPrice(productId, brandId, date);
-        if (priceDTO.isEmpty()) {
+        System.out.println(priceDTO.toString());
+        try {
+            String json = JsonConverter.convertToJson(priceDTO.get());
+            return ResponseEntity.ok(json);
+        } catch (Exception e) {
             return ResponseEntity.status(404).body("Price not found");
         }
-        return ResponseEntity.ok(priceDTO.get());
     }
 }
