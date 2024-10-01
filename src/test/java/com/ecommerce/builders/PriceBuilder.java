@@ -5,17 +5,25 @@ import com.ecommerce.domain.entities.Price;
 import java.time.LocalDateTime;
 
 public class PriceBuilder {
-    private Integer productId = 35455;
-    private Integer brandId = 1;
-    private LocalDateTime startDate = LocalDateTime.of(2021, 1, 1, 0, 0);
-    private LocalDateTime endDate = LocalDateTime.of(2021, 12, 31, 23, 59);
-    private Integer priceList = 1;
-    private Integer priority = 0;
-    private Float price = 35.50f;
-    private String currency = "EUR";
+    private Integer productId;
+    private Integer brandId;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Integer priceList;
+    private Integer priority;
+    private Float price;
+    private String currency;
 
-    public static Price aPrice() {
-        return new PriceBuilder().build();
+    public static PriceBuilder aPrice() {
+        return new PriceBuilder()
+                .setProductId(35455)
+                .setBrandId(1)
+                .setStartDate(LocalDateTime.of(2021, 1, 1, 0, 0))
+                .setEndDate(LocalDateTime.of(2021, 12, 31, 23, 59))
+                .setPriceList(1)
+                .setPriority(0)
+                .setPrice(35.50f)
+                .setCurrency("EUR");
     }
 
     public PriceBuilder setProductId(Integer productId) {

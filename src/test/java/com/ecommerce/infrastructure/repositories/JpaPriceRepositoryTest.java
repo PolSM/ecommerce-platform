@@ -29,7 +29,7 @@ public class JpaPriceRepositoryTest {
     @Test
     public void should_retrieve_a_price() {
         LocalDateTime date = LocalDateTime.of(2021, 1, 1, 0, 0);
-        Price aPrice = PriceBuilder.aPrice();
+        Price aPrice = PriceBuilder.aPrice().build();
 
         priceRepository.save(aPrice);
 
@@ -44,7 +44,7 @@ public class JpaPriceRepositoryTest {
 
     @Test
     public void should_not_retrieve_a_price_if_date_before_start_date() {
-        Price aPrice = PriceBuilder.aPrice();
+        Price aPrice = PriceBuilder.aPrice().build();
         priceRepository.save(aPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
@@ -58,7 +58,7 @@ public class JpaPriceRepositoryTest {
 
     @Test
     public void should_not_retrieve_a_price_if_date_after_end_date() {
-        Price aPrice = PriceBuilder.aPrice();
+        Price aPrice = PriceBuilder.aPrice().build();
         priceRepository.save(aPrice);
 
         Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
@@ -73,8 +73,8 @@ public class JpaPriceRepositoryTest {
     @Test
     public void should_retrieve_a_price_by_priority() {
         LocalDateTime date = LocalDateTime.of(2021, 1, 1, 0, 0);
-        Price aPrice = PriceBuilder.aPrice();
-        Price anotherPrice = new PriceBuilder()
+        Price aPrice = PriceBuilder.aPrice().build();
+        Price anotherPrice = PriceBuilder.aPrice()
                 .setPriority(1)
                 .setPrice(25.50f)
                 .build();
