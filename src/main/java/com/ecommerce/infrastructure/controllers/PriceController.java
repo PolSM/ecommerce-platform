@@ -1,19 +1,33 @@
 package com.ecommerce.infrastructure.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.ecommerce.application.dtos.PriceDTO;
+import com.ecommerce.application.services.PriceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/price")
+@RequestMapping(
+        method = RequestMethod.GET,
+        value = "/price")
 public class PriceController {
+
+    @Autowired
+    private PriceService priceService;
+
     @GetMapping
-    public String getPrice(
-            @RequestParam("product_id") String productId,
-            @RequestParam("brand_id") String brandId,
-            @RequestParam("date") String date
+    public ResponseEntity getPrice(
+            @RequestParam("product_id") Integer productId,
+            @RequestParam("brand_id") Integer brandId,
+            @RequestParam("date") LocalDateTime date
     ) {
-        return "a price";
+        Optional<PriceDTO> priceDTO = priceService.getPrice(date, productId, brandId);
+        if (priceDTO.isEmpty()) {
+            return ResponseEntity.status(404).body("Price not found");
+        }
+        return ResponseEntity.ok(priceDTO.get());
     }
 }
