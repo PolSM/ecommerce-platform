@@ -43,6 +43,30 @@ public class Price {
         this.currency = currency;
     }
 
+    public Integer productId() {
+        return productId;
+    }
+
+    public Integer brandId() {
+        return brandId;
+    }
+
+    public LocalDateTime startDate() {
+        return startDate;
+    }
+
+    public LocalDateTime endDate() {
+        return endDate;
+    }
+
+    public Float price() {
+        return price;
+    }
+
+    public String currency() {
+        return currency;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

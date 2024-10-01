@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @DataJpaTest
 public class JpaPriceRepositoryTest {
@@ -33,13 +34,13 @@ public class JpaPriceRepositoryTest {
 
         priceRepository.save(aPrice);
 
-        Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
+        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 date,
                 PRODUCT_ID,
                 BRAND_ID
         );
 
-        Assertions.assertEquals(aPrice, price);
+        Assertions.assertEquals(aPrice, price.get());
     }
 
     @Test
@@ -47,13 +48,13 @@ public class JpaPriceRepositoryTest {
         Price aPrice = PriceBuilder.aPrice().build();
         priceRepository.save(aPrice);
 
-        Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
+        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 LocalDateTime.of(2020, 1, 1, 0, 0),
                 PRODUCT_ID,
                 BRAND_ID
         );
 
-        Assertions.assertNull(price);
+        Assertions.assertTrue(price.isEmpty());
     }
 
     @Test
@@ -61,13 +62,13 @@ public class JpaPriceRepositoryTest {
         Price aPrice = PriceBuilder.aPrice().build();
         priceRepository.save(aPrice);
 
-        Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
+        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 LocalDateTime.of(2022, 1, 1, 0, 0),
                 PRODUCT_ID,
                 BRAND_ID
         );
 
-        Assertions.assertNull(price);
+        Assertions.assertTrue(price.isEmpty());
     }
 
     @Test
@@ -81,12 +82,12 @@ public class JpaPriceRepositoryTest {
         priceRepository.save(aPrice);
         priceRepository.save(anotherPrice);
 
-        Price price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
+        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
                 date,
                 PRODUCT_ID,
                 BRAND_ID
         );
 
-        Assertions.assertEquals(anotherPrice, price);
+        Assertions.assertEquals(anotherPrice, price.get());
     }
 }
