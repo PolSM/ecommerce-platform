@@ -3,24 +3,27 @@ package com.ecommerce.application.services;
 import com.ecommerce.application.dtos.PriceDTO;
 import com.ecommerce.domain.entities.Price;
 import com.ecommerce.infrastructure.repositories.BaseJpaPriceRepository;
+import com.ecommerce.infrastructure.repositories.JpaPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PriceService {
 
-    private final BaseJpaPriceRepository priceRepository;
+    private final JpaPriceRepository priceRepository;
 
     @Autowired
-    public PriceService(BaseJpaPriceRepository priceRepository) {
+    public PriceService(JpaPriceRepository priceRepository) {
         this.priceRepository = priceRepository;
     }
 
-    public Optional<PriceDTO> getPrice(LocalDateTime date, Integer productId, Integer brandId) {
-        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(date, productId, brandId);
+    public Optional<PriceDTO> getPrice(Integer productId, Integer brandId, LocalDateTime date) {
+        Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(productId, brandId, date);
         return price.map(p -> new PriceDTO(
                 p.productId(),
                 p.brandId(),

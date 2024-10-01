@@ -37,7 +37,7 @@ public class PriceControllerTest {
                 35.50f,
                 "EUR"
         );
-        Mockito.when(priceService.getPrice(dateTime, 1, 1)).thenReturn(Optional.of(priceDTO));
+        Mockito.when(priceService.getPrice(1, 1, dateTime)).thenReturn(Optional.of(priceDTO));
 
         mockMvc.perform(get("/price")
                         .param("product_id", "1")
@@ -52,7 +52,7 @@ public class PriceControllerTest {
     public void should_return_404_and_error_message() throws Exception {
         LocalDateTime dateTime = LocalDateTime.now();
 
-        Mockito.when(priceService.getPrice(dateTime, 1, 1)).thenReturn(Optional.empty());
+        Mockito.when(priceService.getPrice( 1, 1, dateTime)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/price")
                         .param("product_id", "1")

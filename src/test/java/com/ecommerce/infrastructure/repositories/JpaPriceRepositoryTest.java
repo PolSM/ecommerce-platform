@@ -1,21 +1,24 @@
 package com.ecommerce.infrastructure.repositories;
 
-import com.ecommerce.domain.entities.Price;
 import com.ecommerce.builders.PriceBuilder;
+import com.ecommerce.domain.entities.Price;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@DataJpaTest
+@TestPropertySource("classpath:application-test.properties")
+@SpringBootTest
 public class JpaPriceRepositoryTest {
     @Autowired
-    private BaseJpaPriceRepository priceRepository;
+    private JpaPriceRepository priceRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -35,12 +38,12 @@ public class JpaPriceRepositoryTest {
         priceRepository.save(aPrice);
 
         Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
-                date,
                 PRODUCT_ID,
-                BRAND_ID
+                BRAND_ID,
+                date
         );
 
-        Assertions.assertEquals(aPrice, price.get());
+        Assertions.assertEquals(Optional.of(aPrice), price);
     }
 
     @Test
@@ -49,9 +52,9 @@ public class JpaPriceRepositoryTest {
         priceRepository.save(aPrice);
 
         Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
-                LocalDateTime.of(2020, 1, 1, 0, 0),
                 PRODUCT_ID,
-                BRAND_ID
+                BRAND_ID,
+                LocalDateTime.of(2020, 1, 1, 0, 0)
         );
 
         Assertions.assertTrue(price.isEmpty());
@@ -63,9 +66,9 @@ public class JpaPriceRepositoryTest {
         priceRepository.save(aPrice);
 
         Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
-                LocalDateTime.of(2022, 1, 1, 0, 0),
                 PRODUCT_ID,
-                BRAND_ID
+                BRAND_ID,
+                LocalDateTime.of(2022, 1, 1, 0, 0)
         );
 
         Assertions.assertTrue(price.isEmpty());
@@ -83,11 +86,11 @@ public class JpaPriceRepositoryTest {
         priceRepository.save(anotherPrice);
 
         Optional<Price> price = priceRepository.findPriceByProductIdAndBrandIdAndDate(
-                date,
                 PRODUCT_ID,
-                BRAND_ID
+                BRAND_ID,
+                date
         );
 
-        Assertions.assertEquals(anotherPrice, price.get());
+        Assertions.assertEquals(Optional.of(anotherPrice), price);
     }
 }

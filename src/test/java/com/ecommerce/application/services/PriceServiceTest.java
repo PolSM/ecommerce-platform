@@ -3,7 +3,7 @@ package com.ecommerce.application.services;
 import com.ecommerce.application.dtos.PriceDTO;
 import com.ecommerce.builders.PriceBuilder;
 import com.ecommerce.domain.entities.Price;
-import com.ecommerce.infrastructure.repositories.BaseJpaPriceRepository;
+import com.ecommerce.infrastructure.repositories.JpaPriceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,13 +13,14 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class PriceServiceTest {
 
     @Mock
-    private BaseJpaPriceRepository priceRepository;
+    private JpaPriceRepository priceRepository;
 
     @InjectMocks
     private PriceService priceService;
@@ -36,9 +37,9 @@ class PriceServiceTest {
     @Test
     void should_retrieve_a_price_and_serialize_it() {
         Price price = PriceBuilder.aPrice().build();
-        when(priceRepository.findPriceByProductIdAndBrandIdAndDate(DATE, PRODUCT_ID, BRAND_ID)).thenReturn(Optional.ofNullable(price));
+        when(priceRepository.findPriceByProductIdAndBrandIdAndDate(PRODUCT_ID, BRAND_ID, DATE)).thenReturn(Optional.ofNullable(price));
 
-        Optional<PriceDTO> priceDTO = priceService.getPrice(DATE, PRODUCT_ID, BRAND_ID);
+        Optional<PriceDTO> priceDTO = priceService.getPrice(PRODUCT_ID, BRAND_ID, DATE);
 
         PriceDTO expectedDto = new PriceDTO(
                 PRODUCT_ID,
@@ -49,16 +50,14 @@ class PriceServiceTest {
                 "EUR"
         );
         assertEquals(expectedDto, priceDTO.get());
-        verify(priceRepository, times(1)).findPriceByProductIdAndBrandIdAndDate(DATE, PRODUCT_ID, BRAND_ID);
+        verify(priceRepository, times(1)).findPriceByProductIdAndBrandIdAndDate(PRODUCT_ID, BRAND_ID, DATE);
     }
 
     @Test
     void should_return_null_if_there_is_no_price() {
-        LocalDateTime date = LocalDateTime.now();
+        when(priceRepository.findPriceByProductIdAndBrandIdAndDate(PRODUCT_ID, BRAND_ID, DATE)).thenReturn(Optional.empty());
 
-        when(priceRepository.findPriceByProductIdAndBrandIdAndDate(date, PRODUCT_ID, BRAND_ID)).thenReturn(Optional.empty());
-
-        Optional<PriceDTO> priceDTO = priceService.getPrice(date, PRODUCT_ID, BRAND_ID);
+        Optional<PriceDTO> priceDTO = priceService.getPrice(PRODUCT_ID, BRAND_ID, DATE);
 
         assertTrue(priceDTO.isEmpty());
     }

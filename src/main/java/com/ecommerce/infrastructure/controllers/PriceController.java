@@ -26,7 +26,7 @@ public class PriceController {
             @RequestParam("brand_id") Integer brandId,
             @RequestParam("date") LocalDateTime date
     ) {
-        Optional<PriceDTO> priceDTO = priceService.getPrice(date, productId, brandId);
+        Optional<PriceDTO> priceDTO = priceService.getPrice(productId, brandId, date);
         if (priceDTO.isEmpty()) {
             return ResponseEntity.status(404).body("Price not found");
         }

@@ -67,6 +67,10 @@ public class Price {
         return currency;
     }
 
+    public Integer priority() {
+        return priority;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

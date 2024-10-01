@@ -5,10 +5,14 @@ import com.ecommerce.domain.interfaces.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class JpaPriceRepository implements PriceRepository {
 
-    @Autowired
     private final BaseJpaPriceRepository base;
 
     @Autowired
@@ -17,7 +21,14 @@ public class JpaPriceRepository implements PriceRepository {
     }
 
     @Override
-    public Price findPriceByProductIdAndBrandIdAndDate(Integer productId, Integer brandId, String date) {
-        return null;
+    public Optional<Price> findPriceByProductIdAndBrandIdAndDate(Integer productId, Integer brandId, LocalDateTime date) {
+        Optional<List<Price>> prices = base.findPricesByProductIdAndBrandIdAndDate(productId, brandId, date);
+        return prices.flatMap(priceList -> priceList.stream()
+                .max(Comparator.comparingInt(Price::priority)));
+    }
+
+    @Override
+    public void save(Price price) {
+        base.save(price);
     }
 }
