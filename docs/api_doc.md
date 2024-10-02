@@ -27,6 +27,5 @@ curl -X GET "http://localhost:8080/price?date=2020-06-14T10:00:00&product_id=354
         "endDate": "2020-12-31T23:59:59"
       }
       ```
-- **400**: Invalid request parameters.
 - **404**: No price found for the given parameters.
 - **500**: Internal Server Error.

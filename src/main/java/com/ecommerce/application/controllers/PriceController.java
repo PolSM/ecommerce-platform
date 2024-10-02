@@ -1,6 +1,7 @@
 package com.ecommerce.application.controllers;
 
 import com.ecommerce.application.dtos.PriceDTO;
+import com.ecommerce.application.exceptions.PriceNotFoundException;
 import com.ecommerce.domain.services.PriceService;
 import com.ecommerce.infrastructure.utils.JsonConverter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,10 +43,10 @@ public class PriceController {
                 String json = JsonConverter.convertToJson(priceDTO.get());
                 return ResponseEntity.ok(json);
             } catch (Exception e) {
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.internalServerError().build();
             }
         } else {
-            return ResponseEntity.notFound().build();
+            throw new PriceNotFoundException("Price not found with ID: " + productId);
         }
     }
 }

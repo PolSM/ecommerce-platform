@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,5 +34,14 @@ public class GlobalExceptionHandler {
         errorResponse.put("message", "Missing required parameter: " + ex.getParameterName());
         errorResponse.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PriceNotFoundException.class)
+    public ResponseEntity<?> handlePriceNotFoundException(PriceNotFoundException ex, HttpServletRequest request) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("path", request.getRequestURI());
+        errorResponse.put("message", "Price not found");
+        errorResponse.put("timestamp", LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
