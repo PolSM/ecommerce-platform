@@ -1,4 +1,4 @@
-package com.ecommerce.domain.interfaces;
+package com.ecommerce.domain.ports;
 
 import com.ecommerce.domain.entities.Price;
 import org.springframework.stereotype.Repository;

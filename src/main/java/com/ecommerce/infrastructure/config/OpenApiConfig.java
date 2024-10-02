@@ -1,4 +1,4 @@
-package com.ecommerce.config;
+package com.ecommerce.infrastructure.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

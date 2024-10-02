@@ -1,8 +1,9 @@
-package com.ecommerce.application.services;
+package com.ecommerce.domain.services;
 
 import com.ecommerce.application.dtos.PriceDTO;
 import com.ecommerce.builders.PriceBuilder;
 import com.ecommerce.domain.entities.Price;
+import com.ecommerce.domain.services.PriceService;
 import com.ecommerce.infrastructure.repositories.JpaPriceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

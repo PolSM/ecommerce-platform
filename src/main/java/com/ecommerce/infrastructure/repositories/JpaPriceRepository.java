@@ -1,7 +1,7 @@
 package com.ecommerce.infrastructure.repositories;
 
 import com.ecommerce.domain.entities.Price;
-import com.ecommerce.domain.interfaces.PriceRepository;
+import com.ecommerce.domain.ports.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

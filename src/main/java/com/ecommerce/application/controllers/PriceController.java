@@ -1,9 +1,8 @@
-package com.ecommerce.infrastructure.controllers;
+package com.ecommerce.application.controllers;
 
 import com.ecommerce.application.dtos.PriceDTO;
-import com.ecommerce.application.services.PriceService;
+import com.ecommerce.domain.services.PriceService;
 import com.ecommerce.infrastructure.utils.JsonConverter;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
