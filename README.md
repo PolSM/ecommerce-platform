@@ -24,7 +24,9 @@ This project is an E-commerce platform application built with Java, Spring Boot,
 3. Run the app
 
 ## API Documentation
-Run the application and access the API documentation at:
+For detailed endpoint documentation, refer to the [API Documentation](docs/api_doc.md).
+
+Also you can run the application and access the Swagger API documentation at:
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
 
 ## API Database access
