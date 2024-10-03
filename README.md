@@ -21,7 +21,14 @@ This project is an E-commerce platform application built with Java, Spring Boot,
     ```sh
     mvn clean install
     ```
-3. Run the app
+3. **Run the app**
+   ```sh
+   mvn spring-boot:run
+   ```
+   or by executing in the IDE:  
+   - Open the project in IntelliJ IDEA.
+   - Build the project using the Maven tool window.
+   - Run the main application class. 
 
 ## API Documentation
 For detailed endpoint documentation, refer to the [API Documentation](docs/api_doc.md).
