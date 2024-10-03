@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
         errorResponse.put("path", request.getRequestURI());
         errorResponse.put("message", "Invalid parameter type: " + ex.getName());
         errorResponse.put("value", ex.getValue());
-        errorResponse.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -32,7 +31,6 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("path", request.getRequestURI());
         errorResponse.put("message", "Missing required parameter: " + ex.getParameterName());
-        errorResponse.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -41,7 +39,6 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("path", request.getRequestURI());
         errorResponse.put("message", "Price not found");
-        errorResponse.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

@@ -56,13 +56,14 @@ public class PriceControllerTest {
     public void should_return_KO_when_not_found(String dateTime) throws Exception {
         LocalDateTime date = LocalDateTime.parse(dateTime);
 
+        String expectedJson = String.format("{\"path\":\"/price\",\"message\":\"Price not found\"}", dateTime);
         mockMvc.perform(get("/price")
                         .param("product_id", String.valueOf(PRODUCT_ID))
                         .param("brand_id", String.valueOf(BRAND_ID))
                         .param("date", date.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Price not found"));
+                .andExpect(content().string(expectedJson));
     }
 
     static Stream<Arguments> priceProvider() {
